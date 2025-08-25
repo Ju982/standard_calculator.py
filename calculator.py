@@ -1,1 +1,91 @@
 
+def calculator():
+    print("Scientific Calculator")
+    try:
+        while True:
+            op = input("Enter operator (+, -, *, /, **, sin, cos, tan, cot, sqrt) or 'exit' to quit: ").strip().lower()
+            
+            if op == "exit":
+                print("Exiting calculator...")
+                break
+
+            list_op = ["+", "-", "*", "/", "**", "sin", "cos", "tan", "cot", "sqrt"]
+            if op not in list_op:
+                print("Invalid operator. Try again.")
+                continue
+            if op in ["sin", "cos", "tan", "cot", "sqrt"]:
+                try:
+                    num = float(input("Enter a number: "))
+                    if op == "sin":
+                        result = math.sin(math.radians(num))
+                    elif op == "cos":
+                        result = math.cos(math.radians(num))
+                    elif op == "tan":
+                        result = math.tan(math.radians(num))
+                    elif op == "cot":
+                        try:
+                            result = 1 / math.tan(math.radians(num))
+                        except ZeroDivisionError:
+                            print("Error: cot undefined for this input.")
+                            continue
+                    elif op == "sqrt":
+                        if num < 0:
+                            print("Error: Cannot take square root of negative number.")
+                            continue
+                        result = math.sqrt(num)
+
+                    print(f"Result: {result}")
+                    continue
+                except ValueError:
+                    print("Please enter a valid number.")
+                    continue
+
+            numbers = []
+            while True:
+                number = input("Enter a number or '=' to calculate: ").strip()
+                if number == "=":
+                    if len(numbers) < 2:
+                        print("Please enter at least 2 numbers.")
+                        continue
+                    break
+                try:
+                    num = float(number)
+                    numbers.append(num)
+                except ValueError:
+                    print("Please enter a valid number.")
+                    continue
+            if op == "+":
+                result = sum(numbers)
+            elif op == "-":
+                result = numbers[0]
+                for n in numbers[1:]:
+                    result -= n
+            elif op == "*":
+                result = 1
+                for n in numbers:
+                    result *= n
+            elif op == "/":
+                result = numbers[0]
+                for n in numbers[1:]:
+                    if n == 0:
+                        print("Error: Division by zero.")
+                        result = None
+                        break
+                    result /= n
+            elif op == "**":
+                if len(numbers) == 2:
+                    result = numbers[0] ** numbers[1]
+                else:
+                    print("Power operation requires exactly 2 numbers.")
+                    continue
+
+            if result is not None:
+                print(f"Result: {result}")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        print("developed by: juliet")
+calculator()
+
+
+
